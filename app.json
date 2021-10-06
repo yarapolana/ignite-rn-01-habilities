@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "habilities",
+    "slug": "habilities",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "habilities"
+}
