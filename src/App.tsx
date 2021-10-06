@@ -1,20 +1,34 @@
 import React, { useEffect, useState } from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { StyleSheet, Text, View, TextInput, FlatList } from 'react-native'
+import { StyleSheet, Text, View, Platform, TextInput, FlatList } from 'react-native'
 
 import { Button } from './components/Button'
 import { Card } from './components/Card'
 
+interface Hability {
+  id: string
+  name: string
+}
+
 export default function App() {
   const [newHability, setNewHability] = useState('')
-  const [habilities, setHabilities] = useState([])
+  const [habilities, setHabilities] = useState<Hability[]>([])
   const [greeting, setGreeting] = useState('')
 
   function handleAddHability() {
     if (newHability === "") return
     
-    setHabilities(oldState => [...oldState, newHability])
+    const data: Hability = {
+      id: String(new Date().getTime()),
+      name: newHability
+    }
+
+    setHabilities(oldState => [...oldState, data])
     setNewHability('')
+  }
+
+  function handleRemoveHability(id: string) {
+    setHabilities(oldState => oldState.filter(hability => hability.id !== id))
   }
 
   useEffect(() => {
@@ -42,9 +56,9 @@ export default function App() {
 
         <FlatList
           data={habilities}
-          keyExtractor={item => item}
+          keyExtractor={item => item.id}
           renderItem={({ item }) => (
-            <Card title={item} />
+            <Card onPress={() => handleRemoveHability(item.id)} title={item.name} />
           )}
         />
 
